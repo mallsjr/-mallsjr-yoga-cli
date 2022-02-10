@@ -24,10 +24,41 @@ const exitProcess = () => __awaiter(void 0, void 0, void 0, function* () {
     spinner.success({ text: "Goodbye!" });
     process.exit(0);
 });
+const logEntryPrompt = [
+    {
+        type: "input",
+        name: "date",
+        message: "Enter Date Example format: Feb 13, 2014",
+    },
+    {
+        type: "input",
+        name: "duration",
+        message: "Enter Duration of practice in minutes",
+    },
+    {
+        type: "list",
+        name: "type",
+        message: "Enter type of practice",
+        choices: ["Gentle", "Yin", "Bed", "Morning"],
+    },
+];
+const addEntryProcess = () => __awaiter(void 0, void 0, void 0, function* () {
+    const logEntry = yield inquirer.prompt(logEntryPrompt);
+    const spinner = createSpinner("Logging Practice...").start();
+    yield sleep();
+    spinner.success({ text: "Practice logged!" });
+    console.log(logEntry);
+    main();
+});
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const answer = yield inquirer.prompt(questions);
     if (answer.action === "Exit") {
+        console.clear();
         exitProcess();
+    }
+    else if (answer.action === "Log Entry") {
+        console.clear();
+        addEntryProcess();
     }
 });
 main();
